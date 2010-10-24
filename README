@@ -1,0 +1,5 @@
+A Lua version of of Peter Norvig's Lis.py, a Scheme interpreter
+(http://norvig.com/lispy.html)
+
+Currently supports 'quote' and '+' :)
+
