@@ -47,19 +47,21 @@ function eval(x)
     elseif not isa(x, "table") then
         return x
     elseif x[1] == "quote" then
+        pop(x)
+        return unpack(x)
     elseif x[1] == "if" then
     elseif x[1] == "set!" then
     elseif x[1] == "define" then
     elseif x[1] == "lambda" then
     elseif x[1] == "begin" then
     else
-        local exps = map(x, eval)
+        local exps = map(eval, x)
         local proc = pop(exps)
         return proc(unpack(exps))
     end
 end
 
-function map(t, f)
+function map(f, t)
     local res = {}
     for _, v in pairs(t) do
         res[#res + 1] = f(v)
@@ -87,16 +89,14 @@ end
 parse = read
 
 function to_string(exp)
-    -- TODO
-    return isa(exp, "table") and "(" .. table.concat(exp, " ") .. ")"
-                             or  tostring(exp)
+    return isa(exp, "table")
+        and "(" .. table.concat(map(to_string, exp), " ") .. ")"
+        or  tostring(exp)
 end
 
 function repl()
     while true do
-        local input = io.read()
-        for k,v in pairs(parse(input)) do print(k,v) end
-        local val = eval(parse(input))
+        local val = eval(parse(io.read()))
         if val then
             print(to_string(val))
         end
