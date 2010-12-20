@@ -61,6 +61,7 @@ function eval(x)
     end
 end
 
+-- TODO Use penlight?
 function map(f, t)
     local res = {}
     for _, v in pairs(t) do
@@ -69,6 +70,7 @@ function map(f, t)
     return res
 end
 
+-- TODO Use penlight?
 function pop(t)
     return table.remove(t, 1)
 end
@@ -102,5 +104,3 @@ function repl()
         end
     end
 end
-
-repl()
