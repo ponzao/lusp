@@ -51,8 +51,21 @@ context('Lusp', function()
   end)
 
   context('tokenize(s)', function()
-    test('', function()
-    -- TODO
+    test('(10) has three tokens: "(", "10" and ")"', function()
+      local tokens = tokenize('(10)')
+      assert_equal(3, #tokens)
+      assert_equal('(', tokens[1])
+      assert_equal('10', tokens[2])
+      assert_equal(')', tokens[3])
+    end)
+
+    test('(10 11) has four tokens: "(", "10" "11" and ")"', function()
+      local tokens = tokenize('(10 11)')
+      assert_equal(4, #tokens)
+      assert_equal('(', tokens[1])
+      assert_equal('10', tokens[2])
+      assert_equal('11', tokens[3])
+      assert_equal(')', tokens[4])
     end)
   end)
 
