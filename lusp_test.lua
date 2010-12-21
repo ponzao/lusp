@@ -15,39 +15,27 @@ context('Lusp', function()
   end)
 
   context('env:find(var)', function()
-    test('', function()
-      -- TODO  
-    end)
+    test('')
   end)
 
   context('read_from(tokens)', function()
-    test('', function()
-    -- TODO
-    end)
+    test('')
   end)
 
   context('isa(o, t)', function()
-    test('', function()
-    -- TODO
-    end)
+    test('')
   end)
 
   context('eval(x)', function()
-    test('', function()
-    -- TODO
-    end)
+    test('')
   end)
 
   context('map(f, t)', function()
-    test('', function()
-    -- TODO
-    end)
+    test('')
   end)
 
   context('pop(t)', function()
-    test('', function()
-    -- TODO
-    end)
+    test('')
   end)
 
   context('tokenize(s)', function()
@@ -70,20 +58,16 @@ context('Lusp', function()
   end)
 
   context('read(s)', function()
-    test('', function()
-    -- TODO
-    end)
+    test('')
   end)
 
   context('parse', function()
-    test('', function()
-    -- TODO
-    end)
+    test('')
   end)
 
   context('to_string(exp)', function()
-    test('', function()
-    -- TODO
-    end)
-  end)end)
+    test('')
+  end)
+end)
+
 
