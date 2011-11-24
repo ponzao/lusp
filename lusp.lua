@@ -1,6 +1,11 @@
 symbol = tostring
 
 env = {}
+
+env['true'] = true
+env['false'] = false
+env['nil'] = nil
+
 env["+"] = function(...)
   local sum = 0
   for _, v in pairs({...}) do
@@ -8,6 +13,19 @@ env["+"] = function(...)
   end
   return sum
 end
+
+env["-"] = function(...)
+  local rv = nil
+  for _, v in pairs({...}) do
+    if not rv then
+      rv = v
+    else
+      rv = rv - v
+    end
+  end
+  return rv
+end
+
 
 function find(env, var)
   return env
@@ -51,6 +69,11 @@ function eval(x, local_env)
     pop(x)
     return unpack(x)
   elseif x[1] == "if" then
+    local _ = pop(x)
+    local test = pop(x)
+    local exprs = pop(x)
+    local alt_exprs = pop(x)
+    return eval(eval(test, env) and exprs or alt_exprs, local_env)
   elseif x[1] == "set!" then
   elseif x[1] == "define" then
     local _ = pop(x)
