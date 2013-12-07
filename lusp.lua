@@ -6,31 +6,39 @@ env['true'] = true
 env['false'] = false
 env['nil'] = nil
 
-env['+'] = function(...)
-  local sum = 0
-  for _, v in pairs({...}) do
-    sum = sum + v
+function reduce(f, acc, coll)
+  for _, v in pairs(coll) do
+    acc = f(acc, v)
   end
-  return sum
+  return acc
+end
+
+function reduce1(f, coll)
+  local coll = {...}
+  local x = table.remove(coll, 1)
+  local xs = coll
+  return reduce(f, x, xs)
+end
+
+env['+'] = function(...)
+  return reduce(function(a, b) return a + b end, 0, {...})
+end
+
+env['*'] = function(...)
+  return reduce(function(a, b) return a * b end, 1, {...})
 end
 
 env['-'] = function(...)
-  local rv = nil
-  for _, v in pairs({...}) do
-    if not rv then
-      rv = v
-    else
-      rv = rv - v
-    end
-  end
-  return rv
+  return reduce1(function(a, b) return a - b end, {...})
 end
 
+env['/'] = function(...)
+  return reduce1(function(a, b) return a / b end, {...})
+end
 
 function find(env, var)
   return env
 end
-
 
 function atom(token)
   return tonumber(token) or symbol(token)
