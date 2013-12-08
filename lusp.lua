@@ -1,3 +1,5 @@
+local M = {}
+
 symbol = tostring
 
 env = {}
@@ -14,7 +16,6 @@ function reduce(f, acc, coll)
 end
 
 function reduce1(f, coll)
-  local coll = {...}
   local x = table.remove(coll, 1)
   local xs = coll
   return reduce(f, x, xs)
@@ -138,4 +139,8 @@ function repl()
     end
   end
 end
+
+M.repl = repl
+
+return M
 
