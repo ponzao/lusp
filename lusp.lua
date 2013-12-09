@@ -68,7 +68,7 @@ function isa(o, t)
   return type(o) == t
 end
 
-function eval(x, local_env)
+M.eval = function(x, local_env)
   if not local_env then local_env = env end
   if isa(x, 'string') then
     return find(local_env, x)[x]
@@ -82,7 +82,7 @@ function eval(x, local_env)
     local test = pop(x)
     local exprs = pop(x)
     local alt_exprs = pop(x)
-    return eval(eval(test, env) and exprs or alt_exprs, local_env)
+    return M.eval(M.eval(test, env) and exprs or alt_exprs, local_env)
   elseif x[1] == 'set!' then
   elseif x[1] == 'define' then
     local _ = pop(x)
@@ -92,7 +92,7 @@ function eval(x, local_env)
   elseif x[1] == 'lambda' then
   elseif x[1] == 'begin' then
   else
-    local exps = map(function(exp) return eval(exp, env) end, x)
+    local exps = map(function(exp) return M.eval(exp, env) end, x)
     local proc = pop(exps)
     return proc(unpack(exps))
   end
@@ -119,28 +119,15 @@ function tokenize(s)
   return tokens
 end
 
-function read(s)
+M.parse = function(s)
   return read_from(tokenize(s))
 end
 
-parse = read
-
-function to_string(exp)
+M.to_string = function(exp)
   return isa(exp, 'table')
-           and '(' .. table.concat(map(to_string, exp), ' ') .. ')'
-           or  tostring(exp)
+           and '(' .. table.concat(map(M.to_string, exp), ' ') .. ')'
+           or tostring(exp)
 end
-
-function repl()
-  while true do
-    local val = eval(parse(io.read()), env)
-    if val then
-      print(to_string(val))
-    end
-  end
-end
-
-M.repl = repl
 
 return M
 
